@@ -8,6 +8,7 @@ from tensorflow.keras.applications import ResNet50
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
+import gradio as gr
 
 tmp = []
 for i in range(1,10):
@@ -63,3 +64,17 @@ for i in range(3):
   print(f"{i+1}. CNN judge: ", labels[final[i]])
 
 print("Answer : 麻雀、白頭翁、喜鵲")
+
+def classify_image(inp):
+  inp = inp.reshape((-1, 256, 256, 3))
+  inp = preprocess_input(inp)
+  prediction = model.predict(inp).flatten()
+  return {labels[i]: float(prediction[i]) for i in range(3)}
+
+image = gr.inputs.Image(shape=(256, 256), label="鳥類照片")
+label = gr.outputs.Label(num_top_classes=3, label="AI辨識結果")
+
+gr.Interface(fn=classify_image, inputs=image, outputs=label,
+             title="AI 八哥辨識機",
+             description="我能辨識台灣常見的三種八哥: 麻雀、喜鵲、白頭翁。",
+             capture_session=True).launch()
