@@ -75,6 +75,6 @@ image = gr.inputs.Image(shape=(256, 256), label="鳥類照片")
 label = gr.outputs.Label(num_top_classes=3, label="AI辨識結果")
 
 gr.Interface(fn=classify_image, inputs=image, outputs=label,
-             title="AI 八哥辨識機",
-             description="我能辨識台灣常見的三種八哥: 麻雀、喜鵲、白頭翁。",
+             title="AI 三種鳥類辨識機",
+             description="我能辨識台灣常見的三種鳥類: 麻雀、喜鵲、白頭翁。",
              capture_session=True).launch()
